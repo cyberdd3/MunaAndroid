@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_notifications_title">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="chat_notifications"
+            android:title="@string/pref_chat_notifications" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="team_requests_notifications"
+            android:title="@string/pref_team_requests_notifications" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="nearby_marks_notifications"
+            android:title="@string/pref_nearby_marks_notifications"
+            android:summaryOn="@string/pref_nearby_marks_on"
+            android:summaryOff="@string/pref_nearb_marks_off" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pef_map_title">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="show_collected_marks"
+            android:title="@string/show_collected_marks"
+            android:summaryOn="@string/show_collected_marks_summary_on"
+            android:summaryOff="@string/show_collected_marks_summary_off"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="show_my_marks"
+            android:title="@string/show_my_marks"
+            android:summaryOn="@string/show_my_marks_on"
+            android:summaryOff="@string/show_my_marks_off" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_misc_title">
+        <Preference
+            android:key="logout"
+            android:title="@string/pref_logout" />
+    </PreferenceCategory>
+</PreferenceScreen>

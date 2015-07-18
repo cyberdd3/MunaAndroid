@@ -1,0 +1,56 @@
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sliding_panel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoAnchorPoint="0.5"
+    sothree:umanoFadeColor="@android:color/transparent"
+    sothree:umanoPanelHeight="@dimen/sliding_panel_height"
+    sothree:umanoShadowHeight="4dp"
+    tools:context="com.akraft.muna.fragments.MapFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/map_container"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_add_white_24dp"
+            app:elevation="3dp"
+            app:fabSize="normal" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <include layout="@layout/sliding_panel" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:src="@drawable/ic_clear_black_24dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:alpha="0.5"
+            android:padding="6dp"
+            android:id="@+id/close_panel"
+            android:visibility="gone" />
+    </FrameLayout>
+
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

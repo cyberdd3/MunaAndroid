@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mark_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        app:title="@string/mark_details"
+        app:titleTextAppearance="@style/ToolbarTitle">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/hide_mark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="12dp"
+                android:src="@drawable/ic_block_white_24dp" />
+
+            <ImageButton
+                android:id="@+id/bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="12dp"
+                android:selectable="true"
+                android:src="@drawable/bookmark_toolbar" />
+
+            <ImageButton
+                android:id="@+id/close_mark_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="12dp"
+                android:selectable="true"
+                android:src="@drawable/ic_clear_white_24dp" />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:id="@+id/content"
+        android:layout_height="match_parent"></FrameLayout>
+</LinearLayout>

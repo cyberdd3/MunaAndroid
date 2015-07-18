@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="com.akraft.muna.fragments.MarkEditDetailsFragment"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mark_name"
+        android:hint="@string/mark_name_hint"
+        android:layout_gravity="left|top" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mark_thumbnail_height"
+        android:src="@drawable/ic_photo_camera_black_24dp"
+        android:scaleType="center"
+        android:id="@+id/mark_photo"
+        android:elevation="1dp" />
+</LinearLayout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground">
+
+
+    <ImageView
+        android:id="@+id/mark_photo"
+        android:layout_width="75dp"
+        android:layout_height="100dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_photo_camera_black_24dp" />
+
+    <TextView
+        android:id="@+id/mark_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/mark_photo"
+        android:layout_toRightOf="@+id/mark_photo"
+        android:text="@string/unnamed_mark"
+        android:textSize="17sp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mark_name"
+        android:layout_alignLeft="@+id/mark_name"
+        android:layout_alignStart="@+id/mark_name"
+        android:gravity="center_vertical"
+        android:layout_marginTop="4dp"
+        android:id="@+id/linearLayout2">
+
+        <ImageView
+            android:layout_width="14sp"
+            android:layout_height="14sp"
+
+            android:src="@drawable/ic_pin_drop_black_24dp"
+            android:alpha="0.5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unknown_location"
+            android:id="@+id/mark_location" />
+    </LinearLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bookmark"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:button="@drawable/bookmark"
+        android:layout_alignParentTop="true"
+        android:checked="false"
+        android:alpha="0.5"
+        android:paddingLeft="6dp"
+        android:paddingTop="24dp" />
+
+</RelativeLayout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightPrimary">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/message_person"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/message_text_person"
+                android:layout_gravity="left"
+                android:background="@drawable/speech_bubble_person"
+                android:textColor="@color/primaryText"
+                android:paddingLeft="14dp"
+                android:visibility="visible"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:34"
+                android:id="@+id/message_time_person"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/message_text_person"
+                android:layout_toEndOf="@+id/message_text_person"
+                android:textSize="10sp"
+                android:layout_marginLeft="6dp"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/message_me"
+            android:layout_gravity="right">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16:54"
+                android:id="@+id/message_time_me"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/message_text_me"
+                android:layout_toStartOf="@+id/message_text_me"
+                android:layout_marginRight="6dp"
+                android:textSize="10sp"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/message_text_me"
+                android:layout_gravity="right"
+                android:visibility="visible"
+                android:textColor="@color/primaryText"
+                android:background="@drawable/speech_bubble_me"
+                android:layout_alignParentRight="true" />
+        </LinearLayout>
+
+    </FrameLayout>
+</LinearLayout>
