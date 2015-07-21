@@ -5,4 +5,5 @@ public class Config {
     public static final String SERVER_URL_PORT = SERVER_URL + ":8000";
 
     public static final int IMAGE_MAX_SIZE = 720;
+    public static final int CODEWORD_MIN_LENGTH = 8;
 }

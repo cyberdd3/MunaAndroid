@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 
@@ -32,7 +33,6 @@ public class MarksDetectorBoot extends BroadcastReceiver {
                 alarmManager.cancel(alarmIntent);
             }
         }
-
     }
 
 }

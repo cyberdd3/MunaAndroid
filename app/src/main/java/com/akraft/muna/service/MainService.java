@@ -120,4 +120,7 @@ public interface MainService {
 
     @POST("/auth/facebook/")
     void facebookLogin(@Body Map<String, String> data, Callback<Token> callback);
+
+    @GET("/generate_codeword/")
+    void generateCodeword(Callback<String> callback);
 }

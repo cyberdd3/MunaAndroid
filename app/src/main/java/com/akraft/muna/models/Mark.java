@@ -2,6 +2,7 @@ package com.akraft.muna.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
@@ -13,8 +14,8 @@ import java.util.Locale;
 
 public class Mark extends SugarRecord implements Parcelable {
 
-    private double lat;
-    private double lon;
+    private Double lat;
+    private Double lon;
     private long author;
     private String username;
     private String name;
@@ -22,6 +23,9 @@ public class Mark extends SugarRecord implements Parcelable {
     private boolean active = true;
     private String photo;
     private String thumbnail;
+    private String codeword;
+    private String note;
+
 
     @Exclude
     private boolean bookmarked = false;
@@ -45,19 +49,19 @@ public class Mark extends SugarRecord implements Parcelable {
     //TODO show year if old enough
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM 'at' HH:mm", Locale.US);
 
-    public double getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public double getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public void setLon(double lon) {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
 
@@ -133,9 +137,28 @@ public class Mark extends SugarRecord implements Parcelable {
         this.hidden = hidden;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
     @Override
     public boolean equals(Object o) {
         return o instanceof Mark && ((Mark) o).getId().longValue() == getId().longValue();
+    }
+
+    public Mark() {
+    }
+
+    public String getCodeword() {
+        return codeword;
+    }
+
+    public void setCodeword(String codeword) {
+        this.codeword = codeword;
     }
 
     @Override
@@ -154,12 +177,11 @@ public class Mark extends SugarRecord implements Parcelable {
         dest.writeByte(active ? (byte) 1 : (byte) 0);
         dest.writeString(this.photo);
         dest.writeString(this.thumbnail);
+        dest.writeString(this.codeword);
+        dest.writeString(this.note);
         dest.writeByte(bookmarked ? (byte) 1 : (byte) 0);
         dest.writeByte(hidden ? (byte) 1 : (byte) 0);
-        dest.writeLong(getId());
-    }
-
-    public Mark() {
+        dest.writeLong(getId() != null ? getId() : 0);
     }
 
     private Mark(Parcel in) {
@@ -173,12 +195,14 @@ public class Mark extends SugarRecord implements Parcelable {
         this.active = in.readByte() != 0;
         this.photo = in.readString();
         this.thumbnail = in.readString();
+        this.codeword = in.readString();
+        this.note = in.readString();
         this.bookmarked = in.readByte() != 0;
         this.hidden = in.readByte() != 0;
-        setId(in.readLong());
+        this.setId(in.readLong());
     }
 
-    public static final Parcelable.Creator<Mark> CREATOR = new Parcelable.Creator<Mark>() {
+    public static final Creator<Mark> CREATOR = new Creator<Mark>() {
         public Mark createFromParcel(Parcel source) {
             return new Mark(source);
         }

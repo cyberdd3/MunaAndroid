@@ -473,8 +473,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CountMa
         Marker marker = getMarkMarker(mark);
         if (marker != null) {
             marker.remove();
+            marksData.remove(marker);
         }
-        marksData.remove(marker);
     }
 
     @Override

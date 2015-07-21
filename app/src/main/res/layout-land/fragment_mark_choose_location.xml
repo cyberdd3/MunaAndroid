@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.akraft.muna.fragments.MarkLocationFragment"
+    tools:context="com.akraft.muna.fragments.MarkChooseLocationFragment"
     android:orientation="vertical">
 
     <FrameLayout
@@ -27,26 +27,43 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:layout_weight="3">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progress_bar"
-            android:layout_gravity="center"
-            android:indeterminate="true" />
+        android:layout_weight="3"
+        android:background="@color/primary">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/loading"
+            android:visibility="invisible">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_bar"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/progress_bar"
+                android:text="@string/waiting_for_location"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/lightPrimary" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/info_panel"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -99,7 +116,52 @@
                 </RelativeLayout>
             </LinearLayout>
 
-        </RelativeLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:text="@string/choose_mark_location"
+                    android:textColor="@color/lightPrimary"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_weight="1"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp" />
+
+                <FrameLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    style="?android:attr/buttonBarStyle"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:id="@+id/back"
+                        android:src="@drawable/ic_keyboard_arrow_left_accent_24dp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/next"
+                        android:drawableRight="@drawable/ic_keyboard_arrow_right_accent_24dp"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:id="@+id/next"
+                        android:layout_gravity="right" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+        </FrameLayout>
 
     </FrameLayout>
 

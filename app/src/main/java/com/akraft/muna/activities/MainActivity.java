@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         startService(new Intent(this, ChatService.class));
         startService(new Intent(this, NotificationsService.class));
         sendBroadcast(new Intent("com.akraft.muna.action.START_MARKS_DETECTOR"));
+
     }
 
     private void loadProfile() {
@@ -138,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
                 .defaultDisplayImageOptions(imageOptions)
-                .writeDebugLogs()
                 .build();
         ImageLoader.getInstance().init(config);
     }
@@ -236,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        fragmentManager.popBackStack(R.id.flContent, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
         nvDrawer.bringToFront();
     }
@@ -315,4 +316,6 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+
 }

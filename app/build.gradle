@@ -43,4 +43,5 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.4.0'
     compile 'com.github.satyan:sugar:1.4'
     compile 'io.gsonfire:gson-fire:1.2.0'
+    compile 'com.viewpagerindicator:library:2.4.1@aar'
 }

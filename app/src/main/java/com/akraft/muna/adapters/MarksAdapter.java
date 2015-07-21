@@ -17,6 +17,7 @@ import com.akraft.muna.models.Mark;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -43,6 +44,17 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.ViewHolder> 
         this.bookmarked = bookmarked;
         this.hidden = hidden;
         this.clickListener = clickListener;
+
+        //removeHidden();
+
+    }
+
+    private void removeHidden() {
+        Iterator<Mark> iterator = marks.listIterator();
+        while (iterator.hasNext()) {
+            if (hidden.contains(iterator.next()))
+                iterator.remove();
+        }
 
     }
 

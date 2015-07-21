@@ -1,21 +1,122 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.akraft.muna.fragments.MarkEditDetailsFragment"
-    android:padding="16dp"
-    android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    tools:context="com.akraft.muna.fragments.MarkEditDetailsFragment">
 
-    <EditText
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/mark_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="16dp"
+                android:hint="@string/mark_name_hint"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:nextFocusDown="@id/codeword" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground">
+
+                <ImageView
+                    android:id="@+id/mark_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mark_thumbnail_height"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_photo_camera_black_24dp" />
+
+                <TextView
+                    android:id="@+id/add_photo_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/add_photo" />
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/enter_codeword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/my_codeword"
+                    android:textAllCaps="true"
+                    android:textColor="@color/lightPrimary"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/codeword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/enter_codeword"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/codeword_hint"
+                    android:imeOptions="actionNext"
+                    android:inputType="textNoSuggestions|textCapCharacters|textMultiLine"
+                    android:maxLength="32"
+                    android:paddingBottom="24dp"
+                    android:paddingTop="24dp"
+                    android:textColor="@color/accent"
+                    android:textSize="36sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/mark_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:ems="10"
+                android:hint="@string/mark_note_hint"
+                android:imeOptions="actionDone"
+                android:inputType="textMultiLine|text"
+                android:minLines="2" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mark_name"
-        android:hint="@string/mark_name_hint"
-        android:layout_gravity="left|top" />
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/mark_thumbnail_height"
-        android:src="@drawable/ic_photo_camera_black_24dp"
-        android:scaleType="center"
-        android:id="@+id/mark_photo"
-        android:elevation="1dp" />
-</LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/cancel"
+            android:layout_gravity="start" />
+
+        <Button
+            android:id="@+id/finish"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/submit_creating_mark" />
+    </FrameLayout>
+</FrameLayout>

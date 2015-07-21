@@ -116,6 +116,28 @@
     <string name="show_my_marks_off">Marks created by myself won\'t be shown on the main map</string>
     <string name="pef_map_title">Map</string>
     <string name="mark_hidden">Mark has been hidden.</string>
+    <string name="add_photo">Add photo</string>
+    <string name="mark_note_hint">Add a note</string>
+    <string name="enter_codeword">Think up a codeword</string>
+    <string name="codeword_hint">codeword</string>
+    <string name="choose_mark_location">Choose location where you placed your mark</string>
+    <string name="next">Next</string>
+    <string name="new_mark_title">New mark</string>
+    <string name="new_mark_creating">You want to create a new mark. Here is what you do.\nTake a sheet of paper or something more creative that you can use to write a codeword on\nThink up (or generate it) a codeword and write it down\nNow go outside and hide it somewhere\nWhen you finished, click on the button to specify location and details</string>
+    <string name="finish">submit_creating_mark</string>
+    <string name="submit_creating_mark">Finish creating mark</string>
+    <string name="my_codeword">My codeword</string>
+    <string name="title_activity_showcase">ShowcaseActivity</string>
+    <string name="codeword_requirements">Minimum 8 characters, digits and letters</string>
+    <string name="cancel">Cancel</string>
 
+
+    <string-array name="sc_mark_creation">
+        <item>You want to create a new mark. Here is what you do. </item>
+        <item>Think up (or generate) a codeword. A codeword is a unique word or combination of words. A player who finds your mark would use the codeword to complete it.</item>
+        <item>Take a sheet of paper or something more creative and write the codeword down.</item>
+        <item>Now go outside and hide it somewhere on the streets. This place should be unremarkable so the codeword would be placed there safely</item>
+        <item>Now submit your mark and wait for someone to find it and you earn experience!</item>
+    </string-array>
 
 </resources>

@@ -2,23 +2,21 @@ package com.akraft.muna.fragments;
 
 
 import android.app.Activity;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.akraft.muna.R;
 import com.akraft.muna.Utils;
+import com.akraft.muna.callbacks.MarkCreatingCallback;
 import com.akraft.muna.map.MapboxTileProvider;
+import com.akraft.muna.models.Mark;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -35,7 +33,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MarkLocationFragment extends Fragment {
+public class MarkChooseLocationFragment extends Fragment {
 
     private static final double ALLOWABLE_RADIUS_SINGLE = 75;
     private static final double ALLOWABLE_RADIUS_AREA = 200;
@@ -45,29 +43,32 @@ public class MarkLocationFragment extends Fragment {
     private SupportMapFragment mapFragment;
     private GoogleMap map;
 
-    OnMarkLocationChosen mCallback;
+    MarkCreatingCallback mCallback;
     private CameraPosition markPosition;
 
     private double currentAllowedRadius = ALLOWABLE_RADIUS_SINGLE;
 
     @InjectView(R.id.info_panel)
-    RelativeLayout infoPanel;
-    @InjectView(R.id.progress_bar)
-    ProgressBar progressBar;
+    View infoPanel;
+    @InjectView(R.id.loading)
+    View loadingView;
     @InjectView(R.id.set_single_mark)
     RelativeLayout setSingleMarkButton;
     @InjectView(R.id.set_area_mark)
     RelativeLayout setAreaMarkButton;
+
+
     private Circle boundCircle;
     private Circle areaCircle;
 
-    final LatLng[] myLocation = new LatLng[1];
+    private LatLng myLocation;
+    private Mark mark;
 
     public interface OnMarkLocationChosen {
-        public void locationGot(LatLng latLng);
+        void locationGot(LatLng latLng);
     }
 
-    public MarkLocationFragment() {
+    public MarkChooseLocationFragment() {
         // Required empty public constructor
     }
 
@@ -91,50 +92,71 @@ public class MarkLocationFragment extends Fragment {
             map.addTileOverlay(new TileOverlayOptions().tileProvider(new MapboxTileProvider(MapboxTileProvider.MAP_TILE_DIMENSION, MapboxTileProvider.MAP_TILE_DIMENSION)));
             map.setMyLocationEnabled(true);
             map.getUiSettings().setScrollGesturesEnabled(false);
-            map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
-                @Override
-                public void onMyLocationChange(Location location) {
-                    myLocation[0] = new LatLng(location.getLatitude(), location.getLongitude());
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation[0], 17), new GoogleMap.CancelableCallback() {
-                        @Override
-                        public void onFinish() {
-                            map.getUiSettings().setScrollGesturesEnabled(true);
-                            progressBar.setVisibility(View.GONE);
-                            infoPanel.setVisibility(View.VISIBLE);
-
-
-                            map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-                                @Override
-                                public void onCameraChange(CameraPosition cameraPosition) {
-                                    double dist = Utils.calculateDistance(cameraPosition.target, myLocation[0]);
-                                    if (dist > currentAllowedRadius) {
-                                        map.animateCamera(CameraUpdateFactory.newLatLng(myLocation[0]));
-                                    } else {
-                                        markPosition = cameraPosition;
-                                    }
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-                    });
-                    map.setOnMyLocationChangeListener(null);
-                    drawBoundCircle(ALLOWABLE_RADIUS_SINGLE);
-                }
-            });
+            if (mark != null && mark.getLat() != null && mark.getLon() != null) {
+                setLocation(new LatLng(mark.getLat(), mark.getLon()), false);
+            } else {
+                map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                    @Override
+                    public void onMyLocationChange(Location location) {
+                        map.setOnMyLocationChangeListener(null);
+                        setLocation(new LatLng(location.getLatitude(), location.getLongitude()), true);
+                    }
+                });
+            }
 
         }
+    }
+
+    private void setLocation(final LatLng myLocation, boolean animate) {
+        this.myLocation = myLocation;
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(myLocation, 17);
+        if (animate) {
+            map.animateCamera(cameraUpdate, new GoogleMap.CancelableCallback() {
+                @Override
+                public void onFinish() {
+                    finishSettingLocation();
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
+        } else {
+            map.moveCamera(cameraUpdate);
+            finishSettingLocation();
+        }
+    }
+
+    private void finishSettingLocation() {
+        drawBoundCircle(ALLOWABLE_RADIUS_SINGLE);
+        map.getUiSettings().setScrollGesturesEnabled(true);
+        loadingView.setVisibility(View.GONE);
+        infoPanel.setVisibility(View.VISIBLE);
+
+        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+                double dist = Utils.calculateDistance(cameraPosition.target, myLocation);
+                if (dist > currentAllowedRadius) {
+                    map.animateCamera(CameraUpdateFactory.newLatLng(myLocation));
+                } else {
+                    markPosition = cameraPosition;
+                }
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_mark_location, container, false);
+        rootView = inflater.inflate(R.layout.fragment_mark_choose_location, container, false);
         ButterKnife.inject(this, rootView);
 
+        loadingView.setVisibility(View.VISIBLE);
+        infoPanel.setVisibility(View.GONE);
+
+        mark = getArguments().getParcelable("mark");
         return rootView;
     }
 
@@ -143,20 +165,13 @@ public class MarkLocationFragment extends Fragment {
         super.onAttach(activity);
 
         try {
-            mCallback = (OnMarkLocationChosen) activity;
+            mCallback = (MarkCreatingCallback) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnMarkLocationChosen");
         }
     }
 
-    @Override
-    public void onDetach() {
-        if (markPosition != null) {
-            mCallback.locationGot(markPosition.target);
-        }
-        super.onDetach();
-    }
 
     @OnClick(R.id.set_single_mark)
     public void setSingleMark(View view) {
@@ -209,7 +224,7 @@ public class MarkLocationFragment extends Fragment {
         if (boundCircle != null)
             boundCircle.remove();
         boundCircle = map.addCircle(new CircleOptions()
-                        .center(myLocation[0])
+                        .center(myLocation)
                         .radius(radius)
                         .strokeWidth(2)
                         .strokeColor(getActivity().getResources().getColor(R.color.circle_stroke))
@@ -217,4 +232,21 @@ public class MarkLocationFragment extends Fragment {
                         .zIndex(10)
         );
     }
+
+    @OnClick(R.id.next)
+    public void nextStep() {
+        mCallback.next();
+    }
+
+    @OnClick(R.id.cancel)
+    public void cancel() {mCallback.cancel();}
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (markPosition != null)
+            mCallback.locationGot(markPosition.target);
+    }
+
+
 }

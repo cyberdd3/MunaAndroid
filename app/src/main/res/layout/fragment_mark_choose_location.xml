@@ -1,0 +1,169 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.akraft.muna.fragments.MarkChooseLocationFragment"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+
+        <FrameLayout
+            android:id="@+id/map_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/ic_map_marker"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:background="@color/primary">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/loading"
+            android:visibility="invisible">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_bar"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/progress_bar"
+                android:text="@string/waiting_for_location"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/lightPrimary" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/info_panel"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/set_single_mark"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingTop="8dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_place_black_36dp"
+                        android:id="@+id/single_mark_image"
+
+                        android:layout_centerHorizontal="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/single_mark"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:paddingTop="4dp"
+                        android:layout_below="@+id/single_mark_image"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingTop="8dp"
+                    android:id="@+id/set_area_mark"
+                    android:background="?attr/selectableItemBackground">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_map_marker_circle_black_36dp"
+                        android:id="@+id/area_mark_image"
+                        android:layout_centerHorizontal="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/area_mark"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:paddingTop="4dp"
+                        android:layout_below="@+id/area_mark_image"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:weightSum="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
+                    android:text="@string/choose_mark_location"
+                    android:textColor="@color/lightPrimary"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_weight="1"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp" />
+
+                <FrameLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    style="?android:attr/buttonBarStyle"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cancel"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:id="@+id/cancel"
+                        android:layout_gravity="start" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/next"
+                        android:drawableRight="@drawable/ic_keyboard_arrow_right_accent_24dp"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_right_accent_24dp"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:id="@+id/next"
+                        android:layout_gravity="end" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

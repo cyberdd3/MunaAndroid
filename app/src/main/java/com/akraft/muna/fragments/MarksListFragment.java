@@ -94,7 +94,6 @@ public class MarksListFragment extends Fragment implements MarksAdapter.Bookmark
 
         bookmarked = Mark.find(Mark.class, "bookmarked = 1");
         hidden = Mark.find(Mark.class, "hidden = 1");
-
         if (justCreated) {
             getMarks();
             justCreated = false;
@@ -140,6 +139,7 @@ public class MarksListFragment extends Fragment implements MarksAdapter.Bookmark
     private Callback<ArrayList<Mark>> marksListCallback = new Callback<ArrayList<Mark>>() {
         @Override
         public void success(ArrayList<Mark> data, Response response) {
+            data.removeAll(hidden);
             updateMarksList(data);
             progressBar.setVisibility(View.GONE);
             loadingMarks = false;

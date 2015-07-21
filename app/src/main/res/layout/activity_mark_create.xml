@@ -3,13 +3,6 @@
     android:layout_height="match_parent"
     tools:context="com.akraft.muna.activities.MarkCreateActivity"
     android:orientation="vertical">
-
-
-    <include
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <!-- The main content view -->
     <FrameLayout
         android:id="@+id/flContent"

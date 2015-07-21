@@ -1,20 +1,20 @@
 package com.akraft.muna.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.webkit.MimeTypeMap;
 
 import com.akraft.muna.R;
 import com.akraft.muna.Utils;
+import com.akraft.muna.callbacks.MarkCreatingCallback;
 import com.akraft.muna.fragments.MarkEditDetailsFragment;
-import com.akraft.muna.fragments.MarkLocationFragment;
+import com.akraft.muna.fragments.MarkChooseLocationFragment;
+import com.akraft.muna.fragments.MarkStartCreatingFragment;
 import com.akraft.muna.models.Mark;
 import com.akraft.muna.service.ServiceManager;
 import com.google.android.gms.maps.model.LatLng;
@@ -23,83 +23,50 @@ import java.io.File;
 import java.io.IOException;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 
-public class MarkCreateActivity extends AppCompatActivity
-        implements MarkLocationFragment.OnMarkLocationChosen, MarkEditDetailsFragment.OnMarkDetailsProvided {
+public class MarkCreateActivity extends AppCompatActivity implements MarkCreatingCallback {
 
-    @InjectView(R.id.toolbar)
-    Toolbar toolbar;
     private FragmentManager fragmentManager;
 
-    private Class[] steps = new Class[]{MarkLocationFragment.class, MarkEditDetailsFragment.class};
-    private int[] titles = new int[]{R.string.mark_location, R.string.mark_details};
+    private Class[] steps = new Class[]{MarkStartCreatingFragment.class, MarkChooseLocationFragment.class, MarkEditDetailsFragment.class};
     private int currentStep = 0;
 
     private Mark mark;
     private File imageFile;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_create);
         ButterKnife.inject(this);
-        createNavigation();
 
-        mark = new Mark();
-        mark.setAuthor(getSharedPreferences(Utils.AUTH_PREF, 0).getLong("id", 0));
         fragmentManager = getSupportFragmentManager();
         updateStepFragment();
+
+        //if (!getSharedPreferences(Utils.SHOWCASE_PREF, 0).getBoolean("mark_creation", false)) {
+         //   getSharedPreferences(Utils.SHOWCASE_PREF, 0).edit().putBoolean("mark_creation", true).commit();
+            Intent intent = new Intent(this, ShowcaseActivity.class);
+            intent.putExtra("type", ShowcaseActivity.MARK_CREATION);
+            startActivity(intent);
+        //}
     }
 
-
-    private void createNavigation() {
-        setSupportActionBar(toolbar);
-
-        final ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_mark_create, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.next:
-                if (currentStep < steps.length - 1) {
-                    currentStep++;
-                    updateStepFragment();
-                    if (currentStep == steps.length - 2)
-                        item.setTitle(R.string.add_mark);
-                } else {
-                    Fragment fragment = fragmentManager.findFragmentById(R.id.flContent);
-                    if (fragment != null)
-                        fragmentManager.beginTransaction().remove(fragment).commit();
-                    addMark();
-                }
-                break;
-            case android.R.id.home:
-                finish();
-                break;
+    private void nextStep() {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            updateStepFragment();
+        } else {
+            Fragment fragment = fragmentManager.findFragmentById(R.id.flContent);
+            if (fragment != null)
+                fragmentManager.beginTransaction().remove(fragment).commit();
+            addMark();
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void addMark() {
@@ -140,8 +107,15 @@ public class MarkCreateActivity extends AppCompatActivity
 
     private void updateStepFragment() {
         try {
-            fragmentManager.beginTransaction().replace(R.id.flContent, (Fragment) steps[currentStep].newInstance()).commit();
-            getSupportActionBar().setTitle(titles[currentStep]);
+            if (currentFragment != null)
+                fragmentManager.beginTransaction().remove(currentFragment).commit();
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("mark", mark);
+            currentFragment = (Fragment) steps[currentStep].newInstance();
+            currentFragment.setArguments(bundle);
+
+            fragmentManager.beginTransaction().add(R.id.flContent, currentFragment).commit();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -155,10 +129,41 @@ public class MarkCreateActivity extends AppCompatActivity
         mark.setLon(latLng.longitude);
     }
 
-
     @Override
-    public void detailsGot(String name, File imageFile) {
+    public void detailsGot(String name, String codeword, String note, File imageFile) {
         mark.setName(name);
+        mark.setCodeword(codeword);
+        mark.setNote(note);
         this.imageFile = imageFile;
     }
+
+    @Override
+    public void onBackPressed() {
+        if (currentStep > 0) {
+            currentStep--;
+            updateStepFragment();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public void next() {
+        nextStep();
+    }
+
+    @Override
+    public void started(String codeword) {
+        if (mark == null) {
+            mark = new Mark();
+            mark.setAuthor(getSharedPreferences(Utils.AUTH_PREF, 0).getLong("id", 0));
+        }
+        mark.setCodeword(codeword);
+    }
+
+    @Override
+    public void cancel() {
+        finish();
+    }
+
 }
